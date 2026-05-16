@@ -6,11 +6,17 @@
       "$path": "src/ServerScriptServices"
     },
     "ServerStorage": {
-      "$path": "src/ServerStorage"
+      "$path": "src/ServerStorage",
+      "Packages": {
+        "$path": "ServerPackages"
+      }
     },
     "ReplicatedStorage": {
       "Shared": {
         "$path": "src/shared"
+      },
+      "Packages": {
+        "$path": "Packages"
       }
     },
     "StarterPlayer": {
@@ -44,8 +50,21 @@
     "Lighting": {
       "$properties": {
         "Brightness": 2,
+        "ClockTime": 14,
         "GlobalShadows": true,
-        "Technology": "Voxel"
+        "Technology": "Voxel",
+        "Ambient": [0.3, 0.3, 0.3],
+        "OutdoorAmbient": [0.3, 0.3, 0.3]
+      },
+      "Atmosphere": {
+        "$className": "Atmosphere",
+        "$properties": {
+          "Density": 0.2,
+          "Offset": 0.5,
+          "Decay": [0.92, 0.95, 1],
+          "Glare": 0,
+          "Haze": 0
+        }
       }
     }
   }
