@@ -2,49 +2,54 @@ local OutfitService = {}
 
 local Players = game:GetService("Players")
 
--- Starter outfit: The Sovereign (Business look)
-local STARTER_OUTFIT = {
-    ShirtId = "rbxassetid://6536004768",
-    PantsId = "rbxassetid://6536009595",
-    HeadColor = Color3.fromRGB(234, 184, 146),
-    TorsoColor = Color3.fromRGB(234, 184, 146),
-}
-
 function OutfitService.Init()
     print("[OUTFIT] OutfitService ready")
 end
 
 function OutfitService.ApplyStarterOutfit(player)
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
+    local character = player.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return end
+
+    -- Wait for appearance to fully load
+
 
     -- Apply shirt
-    local existingShirt = character:FindFirstChildOfClass("Shirt")
-    if not existingShirt then
-        existingShirt = Instance.new("Shirt")
-        existingShirt.Parent = character
+    local shirt = character:FindFirstChildOfClass("Shirt")
+    if not shirt then
+        shirt = Instance.new("Shirt")
+        shirt.Parent = character
     end
-    existingShirt.ShirtTemplate = STARTER_OUTFIT.ShirtId
+    shirt.ShirtTemplate = "rbxassetid://6536004768"
 
     -- Apply pants
-    local existingPants = character:FindFirstChildOfClass("Pants")
-    if not existingPants then
-        existingPants = Instance.new("Pants")
-        existingPants.Parent = character
+    local pants = character:FindFirstChildOfClass("Pants")
+    if not pants then
+        pants = Instance.new("Pants")
+        pants.Parent = character
     end
-    existingPants.PantsTemplate = STARTER_OUTFIT.PantsId
+    pants.PantsTemplate = "rbxassetid://6536009595"
 
-    print("[OUTFIT] Applied Sovereign look to " .. player.Name)
+    -- Dark shoes via body colors
+    local bodyColors = character:FindFirstChildOfClass("BodyColors")
+    if bodyColors then
+        bodyColors.LeftFootColor3 = Color3.fromRGB(30, 30, 30)
+        bodyColors.RightFootColor3 = Color3.fromRGB(30, 30, 30)
+    end
+
+    print("[OUTFIT] Applied look to " .. player.Name)
 end
 
--- Apply outfit every time character spawns
 function OutfitService.SetupPlayer(player)
-    player.CharacterAdded:Connect(function()
-        task.wait(0.5)
+    player.CharacterAdded:Connect(function(character)
+        task.wait(1)
         OutfitService.ApplyStarterOutfit(player)
     end)
 
     if player.Character then
+        task.wait(1)
         OutfitService.ApplyStarterOutfit(player)
     end
 end

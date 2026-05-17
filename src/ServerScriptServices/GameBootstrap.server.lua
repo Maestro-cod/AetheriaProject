@@ -15,8 +15,8 @@ local OutfitService = require(Services:WaitForChild("OutfitService"))
 local WorldService = require(Services:WaitForChild("WorldService"))
 local JobService = require(Services:WaitForChild("JobService"))
 local AgingService = require(Services:WaitForChild("AgingService"))
+local FurnitureService = require(Services:WaitForChild("FurnitureService"))
 
--- Initialize services
 DataService.Init()
 EconomyService.Init()
 PlotService.Init()
@@ -24,28 +24,25 @@ OutfitService.Init()
 WorldService.Init()
 JobService.Init()
 AgingService.Init()
+FurnitureService.Init()
 print("[BOOTSTRAP] All services initialized")
 
--- Build the world
+
 WorldSetup.Build()
 PlotService.SetupPlots()
 JobService.SetupJobStations()
 
--- Start living systems
 WorldService.StartDayNightCycle()
 AgingService.StartAgeLoop()
 
--- Handle new residents
 Players.PlayerAdded:Connect(function(player)
     local profile = DataService.WaitForProfile(player, 15)
     if not profile then return end
 
     local data = DataService.GetData(player)
-
-    -- Update age on join
     AgingService.UpdatePlayer(player)
 
-    print("[BOOTSTRAP] " .. player.Name .. " arrived | Credits: " .. data.Credits .. " | Age: " .. data.AgeStage)
+    print("[BOOTSTRAP] " .. player.Name .. " | Credits: " .. data.Credits .. " | Age: " .. data.AgeStage)
 
     local leaderstats = Instance.new("Folder")
     leaderstats.Name = "leaderstats"
