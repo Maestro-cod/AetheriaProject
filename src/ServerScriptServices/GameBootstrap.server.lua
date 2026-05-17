@@ -14,6 +14,7 @@ local WorldSetup = require(Services:WaitForChild("WorldSetup"))
 local OutfitService = require(Services:WaitForChild("OutfitService"))
 local WorldService = require(Services:WaitForChild("WorldService"))
 local JobService = require(Services:WaitForChild("JobService"))
+local AgingService = require(Services:WaitForChild("AgingService"))
 
 -- Initialize services
 DataService.Init()
@@ -22,6 +23,7 @@ PlotService.Init()
 OutfitService.Init()
 WorldService.Init()
 JobService.Init()
+AgingService.Init()
 print("[BOOTSTRAP] All services initialized")
 
 -- Build the world
@@ -29,8 +31,9 @@ WorldSetup.Build()
 PlotService.SetupPlots()
 JobService.SetupJobStations()
 
--- Start the living world
+-- Start living systems
 WorldService.StartDayNightCycle()
+AgingService.StartAgeLoop()
 
 -- Handle new residents
 Players.PlayerAdded:Connect(function(player)
@@ -38,6 +41,10 @@ Players.PlayerAdded:Connect(function(player)
     if not profile then return end
 
     local data = DataService.GetData(player)
+
+    -- Update age on join
+    AgingService.UpdatePlayer(player)
+
     print("[BOOTSTRAP] " .. player.Name .. " arrived | Credits: " .. data.Credits .. " | Age: " .. data.AgeStage)
 
     local leaderstats = Instance.new("Folder")
@@ -52,12 +59,10 @@ Players.PlayerAdded:Connect(function(player)
     OutfitService.SetupPlayer(player)
 end)
 
--- Clean up on leave
 Players.PlayerRemoving:Connect(function(player)
     JobService.OnPlayerLeaving(player)
 end)
 
--- Update leaderboard
 task.spawn(function()
     while true do
         task.wait(10)
