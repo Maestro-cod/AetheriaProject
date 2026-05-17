@@ -13,6 +13,7 @@ local PlotService = require(Services:WaitForChild("PlotService"))
 local WorldSetup = require(Services:WaitForChild("WorldSetup"))
 local OutfitService = require(Services:WaitForChild("OutfitService"))
 local WorldService = require(Services:WaitForChild("WorldService"))
+local JobService = require(Services:WaitForChild("JobService"))
 
 -- Initialize services
 DataService.Init()
@@ -20,11 +21,13 @@ EconomyService.Init()
 PlotService.Init()
 OutfitService.Init()
 WorldService.Init()
+JobService.Init()
 print("[BOOTSTRAP] All services initialized")
 
 -- Build the world
 WorldSetup.Build()
 PlotService.SetupPlots()
+JobService.SetupJobStations()
 
 -- Start the living world
 WorldService.StartDayNightCycle()
@@ -49,6 +52,12 @@ Players.PlayerAdded:Connect(function(player)
     OutfitService.SetupPlayer(player)
 end)
 
+-- Clean up on leave
+Players.PlayerRemoving:Connect(function(player)
+    JobService.OnPlayerLeaving(player)
+end)
+
+-- Update leaderboard
 task.spawn(function()
     while true do
         task.wait(10)
