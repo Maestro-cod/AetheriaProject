@@ -12,17 +12,22 @@ local EconomyService = require(Services:WaitForChild("EconomyService"))
 local PlotService = require(Services:WaitForChild("PlotService"))
 local WorldSetup = require(Services:WaitForChild("WorldSetup"))
 local OutfitService = require(Services:WaitForChild("OutfitService"))
+local WorldService = require(Services:WaitForChild("WorldService"))
 
 -- Initialize services
 DataService.Init()
 EconomyService.Init()
 PlotService.Init()
 OutfitService.Init()
+WorldService.Init()
 print("[BOOTSTRAP] All services initialized")
 
 -- Build the world
 WorldSetup.Build()
 PlotService.SetupPlots()
+
+-- Start the living world
+WorldService.StartDayNightCycle()
 
 -- Handle new residents
 Players.PlayerAdded:Connect(function(player)
@@ -32,7 +37,6 @@ Players.PlayerAdded:Connect(function(player)
     local data = DataService.GetData(player)
     print("[BOOTSTRAP] " .. player.Name .. " arrived | Credits: " .. data.Credits .. " | Age: " .. data.AgeStage)
 
-    -- Leaderboard
     local leaderstats = Instance.new("Folder")
     leaderstats.Name = "leaderstats"
     leaderstats.Parent = player
@@ -42,7 +46,6 @@ Players.PlayerAdded:Connect(function(player)
     credits.Value = data.Credits
     credits.Parent = leaderstats
 
-    -- Apply outfit
     OutfitService.SetupPlayer(player)
 end)
 
