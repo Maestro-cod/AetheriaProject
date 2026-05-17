@@ -25,17 +25,6 @@
       }
     },
     "Workspace": {
-      "MallFloor": {
-        "$className": "Part",
-        "$properties": {
-          "Anchored": true,
-          "Size": [512, 1, 512],
-          "Position": [0, 0, 0],
-          "Color": [0.95, 0.95, 0.95],
-          "Material": "Marble",
-          "Locked": true
-        }
-      },
       "SpawnLocation": {
         "$className": "SpawnLocation",
         "$properties": {
@@ -50,20 +39,20 @@
     "Lighting": {
       "$properties": {
         "Brightness": 2,
-        "ClockTime": 14,
+        "ClockTime": 10,
         "GlobalShadows": true,
-        "Technology": "Voxel",
+        "Technology": "Future",
         "Ambient": [0.3, 0.3, 0.3],
         "OutdoorAmbient": [0.3, 0.3, 0.3]
       },
       "Atmosphere": {
         "$className": "Atmosphere",
         "$properties": {
-          "Density": 0.2,
+          "Density": 0.3,
           "Offset": 0.5,
           "Decay": [0.92, 0.95, 1],
           "Glare": 0,
-          "Haze": 0
+          "Haze": 1
         }
       }
     }
