@@ -33,11 +33,7 @@ function OutfitService.ApplyStarterOutfit(player)
     pants.PantsTemplate = "rbxassetid://6536009595"
 
     -- Dark shoes via body colors
-    local bodyColors = character:FindFirstChildOfClass("BodyColors")
-    if bodyColors then
-        bodyColors.LeftFootColor3 = Color3.fromRGB(30, 30, 30)
-        bodyColors.RightFootColor3 = Color3.fromRGB(30, 30, 30)
-    end
+
 
     print("[OUTFIT] Applied look to " .. player.Name)
 end

@@ -23,8 +23,9 @@ PlotService.Init()
 OutfitService.Init()
 WorldService.Init()
 JobService.Init()
-AgingService.Init()
-FurnitureService.Init()
+AgingService.Init()local FamilyService = require(Services:WaitForChild("FamilyService"))local MarketService = require(Services:WaitForChild("MarketService"))
+FurnitureService.Init()FamilyService.Init()
+FamilyService.SetupPlayerInteraction()MarketService.Init()
 print("[BOOTSTRAP] All services initialized")
 
 
